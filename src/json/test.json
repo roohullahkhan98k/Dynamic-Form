@@ -1,0 +1,154 @@
+[
+    {
+      "type": "text",
+      "name": "firstName",
+      "label": "First Name",
+      "placeholder": "Enter your first name",
+      "defaultValue": "",
+      "validation": {
+        "required": "First name is required",
+        "tooltip": "Your legal first name."
+      }
+    },
+    {
+      "type": "text",
+      "name": "lastName",
+      "label": "Last Name",
+      "placeholder": "Enter your last name",
+      "defaultValue": "",
+      "validation": {
+        "required": "Last name is required",
+        "tooltip": "Your legal last name."
+      }
+    },
+    {
+      "type": "select",
+      "name": "haveAddress",
+      "label": "Do you have an address?",
+      "placeholder": "Select an option",
+      "defaultValue": "",
+      "options": [
+        { "value": "yes", "label": "Yes" },
+        { "value": "no", "label": "No" }
+      ]
+    },
+    {
+      "type": "nested",
+      "name": "address",
+      "label": "Address Details",
+      "condition": {
+        "field": "haveAddress",
+        "value": "yes"
+      },
+      "fields": [
+        {
+          "type": "text",
+          "name": "street",
+          "label": "Street",
+          "placeholder": "Enter your street address",
+          "defaultValue": "",
+          "validation": {
+            "required": "Street is required",
+            "tooltip": "Street address, including house/apartment number."
+          }
+        },
+        {
+          "type": "text",
+          "name": "city",
+          "label": "City",
+          "placeholder": "Enter your city",
+          "defaultValue": "",
+          "validation": {
+            "required": "City is required",
+            "tooltip": "City where you reside."
+          }
+        },
+        {
+          "type": "text",
+          "name": "zip",
+          "label": "Zip Code",
+          "placeholder": "Enter your zip code",
+          "defaultValue": "",
+          "validation": {
+            "required": "Zip code is required",
+            "tooltip": "Postal/Zip code for your location."
+          }
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "name": "gender",
+      "label": "Gender",
+      "placeholder": "Select your gender",
+      "defaultValue": "",
+      "options": [
+        { "value": "male", "label": "Male" },
+        { "value": "female", "label": "Female" },
+        { "value": "other", "label": "Other" }
+      ],
+      "validation": {
+        "required": "Gender selection is required",
+        "tooltip": "Choose the gender you identify as."
+      }
+    },
+    {
+      "type": "text",
+      "name": "extraField",
+      "label": "Extra Field",
+      "placeholder": "Enter additional information",
+      "defaultValue": "",
+      "condition": {
+        "field": "gender",
+        "value": "female"
+      },
+      "validation": {
+        "tooltip": "Provide additional information if applicable."
+      }
+    },
+    {
+      "type": "select",
+      "name": "areYouEmployed",
+      "label": "Are you currently employed?",
+      "placeholder": "Select an option",
+      "defaultValue": "",
+      "options": [
+        { "value": "yes", "label": "Yes" },
+        { "value": "no", "label": "No" }
+      ]
+    },
+    {
+      "type": "nested",
+      "name": "employmentDetails",
+      "label": "Employment Details",
+      "condition": {
+        "field": "areYouEmployed",
+        "value": "yes"
+      },
+      "fields": [
+        {
+          "type": "text",
+          "name": "companyName",
+          "label": "Company Name",
+          "placeholder": "Enter your company name",
+          "defaultValue": "",
+          "validation": {
+            "required": "Company name is required",
+            "tooltip": "Name of the company you work for."
+          }
+        },
+        {
+          "type": "text",
+          "name": "designation",
+          "label": "Designation",
+          "placeholder": "Enter your designation",
+          "defaultValue": "",
+          "validation": {
+            "required": "Designation is required",
+            "tooltip": "Your job title or role in the company."
+          }
+        }
+      ]
+    }
+  ]
+  

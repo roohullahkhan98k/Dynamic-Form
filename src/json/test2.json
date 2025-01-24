@@ -1,0 +1,244 @@
+[
+    {
+      "name": "database",
+      "description": "Name of the database.",
+      "validation": {
+        "type": "string"
+      },
+      "group": "connection",
+      "order": 5
+    },
+    {
+      "name": "host",
+      "description": "Host Endpoint of the Redshift Cluster (must include the cluster-id, region and end with .redshift.amazonaws.com)",
+      "validation": {
+        "type": "string"
+      },
+      "group": "connection",
+      "order": 1
+    },
+    {
+      "name": "jdbc_url_params",
+      "description": "Additional properties to pass to the JDBC URL string when connecting to the database formatted as 'key=value' pairs separated by the symbol '&'.",
+      "validation": {
+        "type": "string"
+      },
+      "group": "connection",
+      "order": 7
+    },
+    {
+      "name": "password",
+      "description": "Password associated with the username.",
+      "validation": {
+        "type": "string"
+      },
+      "group": "connection",
+      "order": 4,
+      "secret": true
+    },
+    {
+      "name": "port",
+      "description": "Port of the database.",
+      "validation": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65536
+      },
+      "examples": [
+        "5439"
+      ],
+      "group": "connection",
+      "order": 2,
+      "default": 5439
+    },
+    {
+      "name": "schema",
+      "description": "The default schema tables are written to if the source does not specify a namespace.",
+      "validation": {
+        "type": "string"
+      },
+      "group": "connection",
+      "order": 6,
+      "default": "public",
+      "examples": [
+        "public"
+      ]
+    },
+    {
+      "name": "tunnel_method",
+      "description": "Whether to initiate an SSH tunnel before connecting to the database, and if so, which kind of authentication to use.",
+      "group": "connection",
+      "order": 8,
+      "validation": {
+        "type": "object"
+      },
+      "properties": [
+        {
+          "method": "NO_TUNNEL",
+          "description": "No ssh tunnel needed to connect to database",
+          "validation": {
+            "type": "string"
+          },
+          "order": 0
+        },
+        {
+          "method": "SSH_KEY_AUTH",
+          "description": "Connect through a jump server tunnel host using username and ssh key",
+          "properties": [
+            {
+              "name": "ssh_key",
+              "description": "OS-level user account ssh key credentials in RSA PEM format",
+              "validation": {
+                "type": "string"
+              },
+              "secret": true
+            },
+            {
+              "name": "tunnel_host",
+              "description": "Hostname of the jump server host that allows inbound ssh tunnel.",
+              "validation": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "tunnel_port",
+              "description": "Port on the proxy/jump server that accepts inbound ssh connections.",
+              "validation": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 65536
+              },
+              "default": 22
+            },
+            {
+              "name": "tunnel_user",
+              "description": "OS-level username for logging into the jump server host.",
+              "validation": {
+                "type": "string"
+              }
+            }
+          ],
+          "required": [
+            "tunnel_method",
+            "tunnel_host",
+            "tunnel_port",
+            "tunnel_user",
+            "ssh_key"
+          ]
+        },
+        {
+          "method": "SSH_PASSWORD_AUTH",
+          "description": "Connect through a jump server tunnel host using username and password authentication",
+          "properties": [
+            {
+              "name": "tunnel_host",
+              "description": "Hostname of the jump server host that allows inbound ssh tunnel.",
+              "validation": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "tunnel_port",
+              "description": "Port on the proxy/jump server that accepts inbound ssh connections.",
+              "validation": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 65536
+              },
+              "default": 22
+            },
+            {
+              "name": "tunnel_user",
+              "description": "OS-level username for logging into the jump server host.",
+              "validation": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "tunnel_user_password",
+              "description": "OS-level password for logging into the jump server host.",
+              "validation": {
+                "type": "string"
+              },
+              "secret": true
+            }
+          ],
+          "required": [
+            "tunnel_method",
+            "tunnel_host",
+            "tunnel_port",
+            "tunnel_user",
+            "tunnel_user_password"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "uploading_method",
+      "description": "The way data will be uploaded to Redshift.",
+      "validation": {
+        "type": "string",
+        "enum": ["S3 Staging", "No Uploading Method"]
+      },
+      "display_type": "radio",
+      "group": "connection",
+      "order": 9,
+      "default": "S3 Staging",
+      "properties": [
+        {
+          "method": "S3 Staging",
+          "properties": [
+            {
+              "name": "s3_bucket_name",
+              "description": "The name of the staging S3 bucket.",
+              "validation": {
+                "type": "string"
+              },
+              "examples": [
+                "airbyte.staging"
+              ]
+            },
+            {
+              "name": "s3_bucket_path",
+              "description": "The directory under the S3 bucket where data will be written.",
+              "validation": {
+                "type": "string"
+              },
+              "examples": [
+                "data_sync/test"
+              ]
+            },
+            {
+              "name": "s3_bucket_region",
+              "description": "The region of the S3 staging bucket.",
+              "validation": {
+                "type": "string",
+                "enum": [
+                  "us-east-1", "us-east-2", "us-west-1", "us-west-2",
+                  "af-south-1", "ap-east-1", "ap-south-1", "ap-northeast-1",
+                  "ap-northeast-2", "ap-northeast-3", "ap-southeast-1", "ap-southeast-2",
+                  "ca-central-1", "cn-north-1", "cn-northwest-1", "eu-central-1",
+                  "eu-north-1", "eu-south-1", "eu-west-1", "eu-west-2", "eu-west-3",
+                  "sa-east-1", "me-south-1"
+                ]
+              }
+            },
+            {
+              "name": "secret_access_key",
+              "description": "The corresponding secret to the above access key id.",
+              "validation": {
+                "type": "string"
+              },
+              "secret": true
+            }
+          ]
+        },
+        {
+          "method": "No Uploading Method",
+          "description": "No uploading method will be used.",
+          "properties": []
+        }
+      ]
+    }
+  ]
+  
